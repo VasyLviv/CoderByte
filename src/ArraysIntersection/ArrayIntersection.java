@@ -6,6 +6,7 @@ import java.util.*;
 
 public class ArrayIntersection {
 
+/*
     public static String FindIntersection(String[] strArr) {
         // code goes here
         // code goes here
@@ -23,6 +24,30 @@ public class ArrayIntersection {
 
         return "false";
     }
+*/
+
+    public static String FindIntersection(String[] strArrIn) {
+    // code goes here
+    // code goes here
+    String[][] strArr = new String[2][];
+    strArr[0] = strArrIn[0].replace("  ", " ").split(", ");
+    strArr[1] = strArrIn[1].replace("  ", " ").split(", ");
+    String result = "";
+    result = //String.valueOf(
+            Arrays.stream(strArr[0])
+            .filter(arr0 ->
+                    Arrays.stream(strArr[1])
+                            .anyMatch(arr1 ->
+                                    arr1.equals(arr0)))
+            .reduce((x,y) -> x+','+y).orElse("")
+    //)
+        ;
+
+    if (!result.isEmpty())//length()>0)
+        return result;
+    return "false";
+}
+
 
     public static void main (String[] args) {
         // keep this function call here
