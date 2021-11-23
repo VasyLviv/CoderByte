@@ -9,16 +9,14 @@ public class BracketMatcher {
 
     public static String BracketMatcher(String str) {
         // code goes here
-        Pattern p = Pattern.compile("\\(");
-        Matcher m = p.matcher(str);
         int counter=0;
-        while (m.find())
-            counter++;
-        p = Pattern.compile("\\)");
-        m = p.matcher(str);
-        while (m.find())
-            counter--;
-
+        int index = -1;
+        while (counter>=0 && ++index<str.length()) {
+            if (str.charAt(index) == '(')
+                counter++;
+            else if (str.charAt(index) == ')')
+                counter--;
+        }
 
         return counter == 0 ? "1" : "0";
     }
@@ -26,7 +24,7 @@ public class BracketMatcher {
     public static void main (String[] args) {
         // keep this function call here
         Scanner s = new Scanner(System.in);
-        System.out.print(BracketMatcher("((coder)(byte))"));
+        System.out.print(BracketMatcher("((coder)((byte))"));
 //        System.out.print(BracketMatcher(s.nextLine()));
     }
 
