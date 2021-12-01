@@ -21,9 +21,12 @@ import java.util.Scanner;
 
         import java.util.*;
         import java.io.*;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class TreeConstructorMultiThread {
 
+    private static final Logger logger = Logger.getLogger(TreeConstructorMultiThread.class.getName());
         // code goes here
     static String[] strArr;
     static final Object symophor = new Object();
@@ -40,23 +43,30 @@ public class TreeConstructorMultiThread {
             }
 
             public void run(){
-//                System.out.println("Thread "+element+" started");
+                //                System.out.println("Thread "+element+" started");
+                logger.info("Thread id= "+element+" starting\n");
                 int index = -1;
                 int elem, pair;
                 while (condition && ++index < strArr.length) {
-                    elem = Integer.valueOf(strArr[index].substring(
+                    elem = Integer.parseInt(strArr[index].substring(
                             strArr[index].indexOf(',') + 1
                             , strArr[index].length() - 1));
+                    logger.info("Thread id= "+element+" checking "+elem+"\n");
+
+/*                    elem = Integer.valueOf(strArr[index].substring(
+                            strArr[index].indexOf(',') + 1
+                            , strArr[index].length() - 1));
+*/
                     if (elem == element) {
 //                    parents++;
-                        pair = Integer.valueOf(strArr[index].substring(
+                        pair = Integer.parseInt(strArr[index].substring(
                                 1, strArr[index].indexOf(',')));
                         if(pair < elem)
                             lefts++;
                         else
                             rigth++;
                     } else {
-                        pair = Integer.valueOf(strArr[index].substring(
+                        pair = Integer.parseInt(strArr[index].substring(
                                 1, strArr[index].indexOf(',')));
                         if(pair == element)
                             parents++;
@@ -72,10 +82,16 @@ public class TreeConstructorMultiThread {
                         if (/*apexes>2 || */lefts > 1 || rigth > 1)
                             condition = false;
                     }
-/*                System.out.println("element="+element+": left="
+                if (condition)
+                logger.info("Thread id= "+element+" stoped: left="
                         +lefts+", rigth="+rigth+", parents="+parents
-                        +" ; apex = " + apexes+", condition= "+condition);
-*/            }
+                        +" ; apex = " + apexes+", condition= "+condition+"\n");
+                else
+                    logger.warning("Thread id= "+element
+                            +" stoped on "+index+" element: by condition= "+condition
+                    +"\n");
+
+            }
 
             }
 
@@ -90,7 +106,7 @@ public class TreeConstructorMultiThread {
         int element;
 
         while (condition && ++jndex < strArr.length) {
-            element = Integer.valueOf(strArr[jndex].substring(
+            element = Integer.parseInt(strArr[jndex].substring(
                     strArr[jndex].indexOf(',') + 1
                     , strArr[jndex].length() - 1));
             if(!checked.contains(element)) {
@@ -115,17 +131,19 @@ public class TreeConstructorMultiThread {
         return condition ? "true" : "false";
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // keep this function call here
         Scanner s = new Scanner(System.in);
+        LogManager.getLogManager().readConfiguration();
+        logger.info("TreConstructorMultiThread starting\n");
 //        System.out.print(TreeConstructor(new String[]{"(1,2)", "(2,4)", "(5,7)", "(7,2)", "(9,5)"}));
 //        System.out.print(TreeConstructor(new String[]{"(1,2)", "(3,2)", "(2,12)", "(5,2)"}));
 //        in = new String[]{"(2,5)", "(2,6)"};
         //        System.out.print(TreeConstructor(s.nextLine()));
 //        System.out.print(TreeConstructor(new String[]{"(2,5)", "(2,6)"}));
 //        System.out.print(TreeConstructor(new String[]{"(1,2)", "(3,2)", "(2,12)", "(5,2)"}));
-//        System.out.print(TreeConstructor(new String[]{"(2,3)", "(1,2)", "(4,9)", "(9,3)", "(12,9)", "(6,4)", "(1,9)"}));
-        System.out.print(TreeConstructor(new String[]{"(1,2)", "(2,4)", "(5,7)", "(7,2)", "(9,5)"}));
+        System.out.print(TreeConstructor(new String[]{"(2,3)", "(1,2)", "(4,9)", "(9,3)", "(12,9)", "(6,4)", "(1,9)"}));
+//        System.out.print(TreeConstructor(new String[]{"(1,2)", "(2,4)", "(5,7)", "(7,2)", "(9,5)"}));
     }
 
 }
