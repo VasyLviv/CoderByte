@@ -1,4 +1,5 @@
 package MinWindowSubstring;
+
 import java.beans.PropertyEditorSupport;
 import java.util.*;
 import java.io.*;
@@ -28,54 +29,44 @@ Output: affhkkse
  */
 public class MinWindowSubstring {
 
-    public String variation (String str, int position){
-        String result="";
-        return  result;
-    }
 
     public static String MinWindowSubstring(String[] strArr) {
-        // code goes here
-        boolean found = false;
-        StringBuilder pattern = new StringBuilder();
-        String income = strArr[0];
-//        char temp;
         StringBuilder result = new StringBuilder(strArr[0]);
+        StringBuilder pattern = new StringBuilder();
         StringBuilder temp = new StringBuilder();
-        int counter, index;
-
-        for (int i= 0;  i<strArr[0].length(); i++) {
-            if (found) break;
-            counter=0;
-            pattern.delete(0,pattern.length());
-            pattern.append(strArr[1]);
-            temp.delete(0,temp.length());
-            for (int j = i; j < strArr[0].length()&& pattern.length()>0; j++) {
-                index = pattern.indexOf(strArr[0].charAt(j)+"");
-                if (index>=0) {
-                    pattern.deleteCharAt(index);
+        int index, i, j, counter;
+        for (i = 0; i <= strArr[0].length() - strArr[1].length()
+                && result.length() > strArr[1].length(); i++) {
+//            System.out.println("i="+i+" - "+strArr[0].charAt(i)+"- ");
+            temp.delete(0, temp.length());
+            pattern.replace(0, pattern.length(), strArr[1]);
+            counter = 0;
+            for (j = i; j <= strArr[0].length() - pattern.length()
+                    && pattern.length() > 0; j++) {
+                index = pattern.indexOf(strArr[0].substring(j, j + 1));
+                if (index >= 0) {
+                    pattern.delete(index, index + 1);
                     counter++;
                 }
-                if (counter>0 )
+                if (counter > 0)
                     temp.append(strArr[0].charAt(j));
-                }
-//            System.out.print("temp="+temp.toString());
-            if (temp.length()<result.length()
-                    && //temp.length()>=strArr[1].length())
-                    pattern.length()==0)
-                result.replace(0,result.length(), temp.toString());
-            if (temp.length()==strArr[1].length())
-                found = true;
-//            System.out.println(", result="+result);
-        }
+            }
 
-        return  result.toString();
+        System.out.println("result="+result+", temp="+temp+", pattern="+pattern);
+            if (pattern.length() == 0 && result.length() > temp.length())
+                result.replace(0, result.length(), temp.toString());
+        }
+        return result.toString();
     }
 
-    public static void main (String[] args) {
+
+    public static void main(String[] args) {
         // keep this function call here
         Scanner s = new Scanner(System.in);
-        String[] str = new String[] {"aaabaaddae", "aed"};
-//        String[] str = new String[] {"ahffaksfajeeubsne", "jefaa"};
+//        String[] str = new String[] {"ahffaksfajeeubsne", "jefaa"}; //"aksfaje"
+        String[] str = new String[]{"aaffhkksemckelloe", "fhea"};// "affhkkse"
+//        String[] str = new String[]{"aaabaaddae", "aed"};//"dae"
+//        String[] str = new String[] {"caae", "cae"};
 //        System.out.print(MinWindowSubstring(s.nextLine()));
         System.out.print(MinWindowSubstring(str));
 
